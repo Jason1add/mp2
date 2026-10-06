@@ -1,1 +1,104 @@
+What does this project require?
 
+Globpattern: "*"
+Found 30 files
+Read c:\Users\Jason\Documents\GitHub\mp2\README.md
+Read c:\Users\Jason\Documents\GitHub\mp2\.github\workflows\deploy.yml
+
+This is a course assignment, MP 2 (due October 6, 2026, 11:59PM CT). The task is to build a single-page front-end app with React + TypeScript that calls a public API and displays the data. The repo currently contains only the README and the GitHub Actions config for deployment. No code has been written yet.
+
+What to build
+
+Pick one of these APIs: TMDB, Pokemon, NASA, Marvel, Jelly Belly, TheMealDB, Art Institute of Chicago, or another public API. Do not use paid APIs.
+Implement three views:
+List view: a search box that filters in real time as you type. Sorting by at least 2 properties, in both ascending and descending order. Filtering and sorting can be done on the client.
+Gallery view: displays images, such as posters. Can be filtered by one or more attributes (e.g. type).
+Detail view: opened by clicking an item in the list or gallery, showing the item's detailed attributes. Has previous/next buttons to switch between items. The detail page needs its own route URL and must be reachable directly by URL.
+Must use React Router, Axios, and TypeScript.
+
+Rules
+
+No inline styles and no inline script tags.
+No HTML tables for layout.
+Individual assignment; do not copy others' code. Declare any references you consulted at submission.
+If an LLM was used to generate code, submit the chat log and answer the related questionnaire in the form.
+Vite (react-ts template) is recommended for creating the project, with CSS Modules for styling.
+If the API is unavailable or rate-limited, you may use local mock data or cache results. Think through how to handle errors.
+
+Submission steps
+
+In the current directory, run npm create vite@latest . -- --template react-ts, choose "Ignore files and continue", and do not choose to delete files. Vite will overwrite the README, so it needs to be restored.
+Run npm install and commit package-lock.json, because deployment uses npm ci.
+Set base: '/mp2/' in vite.config.ts.
+Set the BrowserRouter basename to import.meta.env.BASE_URL, and use <Link> instead of <a>.
+In GitHub Settings > Pages, set Source to GitHub Actions, then push to main. After deployment the URL is https://<username>.github.io/mp2.
+Record a demo video of 3 minutes or less showing the deployed URL and all features, upload it to Google Drive, and share it with uiuc.web.programming@gmail.com.
+Fill in the submission form.
+
+Grading (100 points)
+
+List view: 28
+Gallery view: 12
+Detail view: 38
+React Router and TypeScript: 12
+Design: 10
+
+Want me to set up the project for you? If so, pick an API first. I suggest Pokémon (PokéAPI) or TheMealDB, since neither needs an API key and both have lots of images.
+
+Pokémon. Then write it strictly following the project requirements, and I'll fine-tune it afterward.
+
+[Bash / PowerShell tool calls, scaffolding, installs, and all file writes (vite.config.ts, index.html, types.ts, api/pokemon.ts, context/, utils/format.ts, components/, pages/, App.tsx, index.css, main.tsx), build and lint outputs: all unchanged, already in English]*
+
+Copy the template over (keeping the project README), then install dependencies.
+
+[tool calls unchanged]
+
+Writing the three pages (list, gallery, detail) and the routing, then building to verify.
+
+[tool calls unchanged]
+
+Final summary from the AI:
+
+The Pokémon version is written, and npm run build (which includes TypeScript type checking) passes. I haven't actually clicked through the pages in a browser, and I haven't committed to git.
+
+How to run
+
+Run npm run dev, then open http://localhost:5173/mp2/. Because base is set to /mp2/, the URL must include /mp2/.
+
+Features implemented per the assignment
+
+Data: uses Axios to fetch the 151 first-generation Pokémon from PokéAPI, with results cached in localStorage. A spinner shows while loading; on failure an error message and a "Try again" button appear.
+List view /list:
+The search box filters as you type, by name or number.
+Sort by number, name, height, weight, or base experience.
+Separate toggle buttons for ascending and descending.
+Gallery view /gallery:
+Shows official artwork.
+Multi-select filtering by type, switchable between "any match" and "all match".
+Detail view /pokemon/:id:
+Shows attributes, height and weight, abilities, and the six base stats.
+Has previous/next buttons that wrap around at the ends.
+When opened from the list or gallery, previous/next follows the current filtered and sorted order. When opened by typing the URL directly, it follows the order of all 151.
+Rules:
+No inline styles. All styling uses CSS Modules, and normalize.css is included. Stat bars use <progress>.
+No HTML tables and no inline scripts.
+Routing uses React Router. BrowserRouter's basename uses import.meta.env.BASE_URL, and all in-page navigation uses <Link>.
+Dark mode is supported.
+
+One extra thing done for deployment
+
+GitHub Pages doesn't recognize front-end routes by default, so visiting /mp2/pokemon/25 directly would 404. I added a step to the build script that copies index.html to 404.html, so typing a detail-page URL directly also works.
+
+What you still need to do
+
+Make sure package-lock.json is included in the submission; the npm ci used for deployment needs it.
+In GitHub Settings > Pages, set Source to GitHub Actions.
+The README requires declaring the references you used. Since an LLM was used to generate code, you need to submit the chat log and fill in the questionnaire.
+
+Also, npm run lint still shows 1 React warning (calling setState inside an effect). It doesn't affect running, and I didn't address it further.
+
+Where the code lives, to make fine-tuning easier:
+
+Style variables (colors): src/index.css
+The three pages: src/pages/
+API and cache: src/api/pokemon.ts
